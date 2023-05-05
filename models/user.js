@@ -14,9 +14,12 @@ let userSchema = new mongoose.Schema({
         type:String,
         required:true,
     },
+    currentOTP:{
+        type:String,
+    },
     purchaseHistory:[
         {
-            name:{
+            product_name:{
                 type:String,
             },
             date:{
