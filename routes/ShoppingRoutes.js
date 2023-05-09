@@ -4,15 +4,24 @@ import Products from '../models/productsSchema.js';
 const router = express.Router();
 
 router.get("/",async(req,res)=>{
+    let params = req.params.id
     try {
-        let products = await Products.find({});
-        res.status(200).json(products);
+            let product = await Products.find({});
+            return res.status(200).send(product);
     } catch (error) {
         console.log(error);
-        res.status(500).send()
+        res.status(500).send();
     }
 });
-
+router.get("/id/:id",async(req,res)=>{
+    try {
+        let product = await Products.findOne({_id:req.params.id});
+        res.status(200).send(product)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send();
+    }
+})
 router.post("/newProduct",async(req,res)=>{
     try {
         let newProduct = await new Products({
@@ -27,17 +36,32 @@ router.post("/newProduct",async(req,res)=>{
         res.status(500).send();
     } 
 })
-router.delete("/remove/:id",async(req,res)=>{
+router.put("/edit/:id",async(req,res)=>{
     try {
-        let productToDelete = await Products.findByIdAndDelete({_id:req.params.id});
-        if(!productToDelete){
-           return res.status(404).send("Product not found")
-        }
-        res.status(201).json(productToDelete);
+        let productToEdit = await Products.findByIdAndUpdate({_id:req.params.id},{$set:{
+            name:req.body.name,
+            description:req.body.description,
+            price:req.body.price,
+            image:req.body.image
+        }});
+        res.status(201).send({message:"Updated Successfully"});
     } catch (error) {
         console.log(error);
         res.status(500).send();
     }
 })
+router.delete("/remove/:id",async(req,res)=>{
+    try {
+        let productToDelete = await Products.findByIdAndDelete({_id:req.params.id});
+        if(!productToDelete){
+           return res.status(404).send({message:"Product not found"});
+        }
+        res.status(201).send({message:"SuccessFully Removed"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).send();
+    }
+})
+
 
 export const ShoppingRoutes = router;
