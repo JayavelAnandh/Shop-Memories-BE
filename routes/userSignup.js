@@ -22,7 +22,7 @@ router.post("/",async(req,res)=>{
         }).save();
 
         let AuthToken = generateAuthToken(newUser._id);
-        res.status(200).send({authToken:AuthToken,userName:newUser.userName});
+        res.status(200).send({authToken:AuthToken,userName:newUser.userName,gmail:newUser.gmail});
     } catch (error) {
         console.log(error);
         res.status(500).send()

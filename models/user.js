@@ -26,7 +26,21 @@ let userSchema = new mongoose.Schema({
                 type:String
             }
         }
-    ]
+    ],
+    address:{
+        doorNo:{
+            type:String
+        },
+        city:{
+            type:String
+        },
+        state:{
+            type:String
+        },
+        pincode:{
+            type:Number
+        }
+    }
 })
 
 const generateAuthToken = (id)=>{

@@ -23,7 +23,7 @@ router.post("/",async(req,res)=>{
     }
 
     const authToken = await generateAuthToken(userToLogin._id);
-    res.status(200).send({authToken:authToken,userName:userToLogin.userName});
+    res.status(200).send({authToken:authToken,userName:userToLogin.userName,gmail:userToLogin.gmail});
     } catch (error) {
         console.log(error);
         res.status(500).send();
