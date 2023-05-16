@@ -127,13 +127,24 @@ router.put("/purchase",async(req,res)=>{
               city:req.body.city,
               state:req.body.state,
               country:req.body.country,
+              pinCode:req.body.pinCode
             }});
-
+        let deleteCart = await Cart.deleteMany({});
         res.status(200).send(purchase);
     } catch (error) {
         console.log(error);
         res.status(500).send();
     }
+})
+
+router.get("/address/:gmail",async(req,res)=>{
+  try {
+    let address = await User.findOne({gmail:req.params.gmail});
+    res.status(200).send(address.address);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send();
+  }
 })
 function currentTime() {
     var isoDateString = new Date().toISOString();

@@ -50,6 +50,9 @@ let userSchema = new mongoose.Schema({
         },
         country:{
             type:String,
+        },
+        pinCode:{
+            type:String,
         }
     }
 })
