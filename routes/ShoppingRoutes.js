@@ -1,6 +1,7 @@
 import express from "express";
 import Cart from "../models/cartItems.js";
 import Products from "../models/productsSchema.js";
+import { User } from "../models/user.js";
 
 const router = express.Router();
 
@@ -73,13 +74,12 @@ router.delete("/remove/:id", async (req, res) => {
 router.post("/addToCart", async (req, res) => {
   try {
     let cartItem = await new Cart({
-      cart: {
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
         image: req.body.image,
-      },
     }).save();
+    let removeFromStore = await Products.findByIdAndDelete({_id:req.body._id});
     res.status(200).send({message:"Product Added To Cart!"});
   } catch (error) {
     console.log(error);
@@ -95,5 +95,48 @@ router.get("/cartItems",async(req,res)=>{
         res.status(500).send();
     }
 })
+router.post("/removeFromCart",async(req,res)=>{
+    try {
+        let addToStore = await new Products({
+            name: req.body.name,
+            description: req.body.description,
+            price: req.body.price,
+            image: req.body.image,
+        }).save();
+        let removeFromCart = await Cart.findByIdAndDelete({_id:req.body._id});
+        res.status(201).send({message:"Successfully removed from cart"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).send();
+    }
+});
+router.put("/purchase",async(req,res)=>{
+    try {
+        let user = await User.findOne({gmail:req.body.gmail});
+        let newPurchase ={
+            product_name:req.body.product_name,
+            date:currentTime()
+        }
+    
+        let purchase = await User.findOneAndUpdate({gmail:req.body.gmail},
+            {purchaseHistory:[].concat(newPurchase,user.purchaseHistory),address:{
+              fullName:req.body.fullName,
+              contact:req.body.contact,
+              address1:req.body.address1,
+              address2:req.body.address2,
+              city:req.body.city,
+              state:req.body.state,
+              country:req.body.country,
+            }});
 
+        res.status(200).send(purchase);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send();
+    }
+})
+function currentTime() {
+    var isoDateString = new Date().toISOString();
+    return isoDateString;
+  }
 export const ShoppingRoutes = router;

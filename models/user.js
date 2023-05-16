@@ -21,24 +21,35 @@ let userSchema = new mongoose.Schema({
         {
             product_name:{
                 type:String,
+                default:"",
             },
             date:{
-                type:String
+                type:String,
+                default:"",
             }
-        }
+        },
     ],
     address:{
-        doorNo:{
-            type:String
+        fullName:{
+            type:String,
+        },
+        contact:{
+            type:String,
+        },
+        address1:{
+            type:String,
+        },
+        address2:{
+            type:String,
         },
         city:{
-            type:String
+            type:String,
         },
         state:{
-            type:String
+            type:String,
         },
-        pincode:{
-            type:Number
+        country:{
+            type:String,
         }
     }
 })

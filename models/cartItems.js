@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 
 const cartSchema = new mongoose.Schema({
-    cart:[
-        {
             name:{
                 type:String,
                 required:true,
@@ -17,9 +15,7 @@ const cartSchema = new mongoose.Schema({
             },
             image:{
                 type:String,
-            }
-        }
-    ]
+            }       
 })
 const Cart = mongoose.model("cart",cartSchema);
 export default Cart;
