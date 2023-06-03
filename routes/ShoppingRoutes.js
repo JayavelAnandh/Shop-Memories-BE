@@ -117,9 +117,9 @@ router.put("/purchase",async(req,res)=>{
             product_name:req.body.product_name,
             date:currentTime()
         }
-    
+        
         let purchase = await User.findOneAndUpdate({gmail:req.body.gmail},
-            {purchaseHistory:[].concat(newPurchase,user.purchaseHistory),address:{
+            {purchaseHistory:[].concat(newPurchase,...user.purchaseHistory),address:{
               fullName:req.body.fullName,
               contact:req.body.contact,
               address1:req.body.address1,
