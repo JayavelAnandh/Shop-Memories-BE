@@ -10,12 +10,10 @@ import { ResetRoutes } from "./routes/forgetPassword.js";
 const app = express();
 dotenv.config();
 dataBaseConnection();
-app.use(
-  cors({
-    origin: "*",
-  })
-);
-
+app.get("/", (req, res) => {
+  res.send("Working Fine");
+});
+app.use(cors());
 app.use(express.json());
 
 app.use("/shop", ShoppingRoutes);
@@ -23,8 +21,5 @@ app.use("/shop", ShoppingRoutes);
 app.use("/login", logInRoute);
 app.use("/signup", signUpRoute);
 app.use("/", ResetRoutes);
-app.get("/", (req, res) => {
-  res.send("Working Fine");
-});
 
 app.listen(process.env.PORT);
